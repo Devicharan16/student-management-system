@@ -10,6 +10,21 @@ SECRET_KEY = 'django-insecure-tfpj-t@_olbq#_bg#+ec-4echn6zqcz-*wc=+ywvoizupn5faq
 DEBUG = True  # Change to False after deployment
 
 ALLOWED_HOSTS = ['*']
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],  # ADD THIS
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+            ],
+        },
+    },
+]
 
 # ================= APPS =================
 INSTALLED_APPS = [
@@ -30,6 +45,7 @@ INSTALLED_APPS = [
 # ================= MIDDLEWARE =================
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware', 
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -68,6 +84,8 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # ================= CORS =================
 CORS_ALLOW_ALL_ORIGINS = True
