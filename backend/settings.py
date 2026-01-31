@@ -89,7 +89,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # ================= CORS =================
 CORS_ALLOWED_ORIGINS = [
-    "https://student-frontend.onrender.com",
+    "https://student-frontend-W12y.onrender.com",
 ]
 CORS_ALLOW_CREDENTIALS = True
 # ================= DRF & JWT =================
