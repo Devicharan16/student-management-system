@@ -1,6 +1,8 @@
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, authentication_classes, permission_classes
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.permissions import IsAuthenticated
+from rest_framework_simplejwt.authentication import JWTAuthentication
 from django.http import HttpResponse
 import openpyxl
 
@@ -8,8 +10,10 @@ from .models import Student
 from .serializers import StudentSerializer
 
 
-# 📌 GET all students / POST new student
+# 📌 GET all students / POST new student (🔒 Protected)
 @api_view(['GET', 'POST'])
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
 def student_list_create(request):
     if request.method == 'GET':
         students = Student.objects.all()
@@ -24,8 +28,10 @@ def student_list_create(request):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-# 📌 UPDATE or DELETE a student
+# 📌 UPDATE or DELETE a student (🔒 Protected)
 @api_view(['PUT', 'DELETE'])
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
 def student_update_delete(request, pk):
     try:
         student = Student.objects.get(pk=pk)
@@ -44,8 +50,10 @@ def student_update_delete(request, pk):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-# 📥 EXPORT STUDENTS TO EXCEL
+# 📥 EXPORT STUDENTS TO EXCEL (🔒 Protected)
 @api_view(['GET'])
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
 def export_students_excel(request):
     workbook = openpyxl.Workbook()
     sheet = workbook.active
